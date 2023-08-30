@@ -1,0 +1,69 @@
+atm=ragul.cursor()
+#atm.execute("""create table atm_machine(acc_num int primary key,id int,pin_num int,name varchar(25),balance int,ph_num int,branch varchar(25),location varchar(25))""")        #creating table one about customer details
+#atm.execute("""insert into atm_machine values(124356,1,2711,'ragul',50000,9474743,'musiri','trichy'),
+#(123562,2,2655,'bala',530000,9774743,'klt','trichy'),
+#(123523,3,4345,'prem',120000,9577553,'bus-stand','trichy'),
+#(123563,4,6543,'vicky',560000,988543,'bye-pass','trichy'),
+#(124685,5,7243,'pugal',5000,946666,'main-branch','trichy')""")
+#ragul.commit()
+print("welcome to ATM")                                                                     #getting input from user as pin number
+pin=int(input("enter ur pin number:"))
+if pin==2711:                                                                               #based on pin number its redirect to id,acc_num,balance
+    id=1
+    starting_balance=40000
+    acc_num=124356
+    print("hi ragul,\nur acc num is:124356")
+    print("ur balance is: 40000")
+    amount=int(input("enter the amount to withdraw:"))
+    print("-----------------------------------------")
+    if amount> starting_balance:
+        print("insufficient balance")
+    else:
+        balance=starting_balance-amount
+
+elif pin==2655:
+    id=2
+    starting_balance=530000
+    acc_num=123562
+    print("hi bala,\nur acc num is:123562")
+    print("ur balance is: 530000")
+    amount=int(input("enter the amount to withdraw:"))
+    print("-----------------------------------------")
+    if amount> starting_balance:
+     print("insufficient balance")
+    else:
+     balance=starting_balance-amount
+elif pin==4345:
+    id=3
+    starting_balance=120000
+    acc_num=1235233
+    print("hi prem,\nur acc num is:1235233")
+    print("ur balance is: 120000")
+    amount=int(input("enter the amount to withdraw:"))
+    print("-----------------------------------------") 
+    if amount>starting_balance:
+     print("insufficient balance")
+    else:
+        balance=starting_balance-amount
+else:
+    print("incorrect pin,try again")
+
+def update_table(id,balance):                                                                          #updating the result in SQL table (am using postgresql here)
+    sql_select_query="""update atm_machine set balance = %s where id = %s"""
+    atm.execute(sql_select_query, (balance,id))
+    ragul.commit()
+    print("amount withdraw successfully")
+    print("-----------------------------------------") 
+update_table(id,balance)
+def update_table(id,balance,acc_num,starting_balance,amount):                                          #am creating an audit table for mini statement
+    date_time=datetime.datetime.now()
+    sql_select_query="""insert into audit(date_time,id,balance,acc_num,starting_balance,amount) values (%s,%s,%s,%s,%s,%s)"""
+    records_insert=(date_time,id,balance,acc_num,starting_balance,amount)
+    atm.execute(sql_select_query,records_insert)
+    print("hi,ur acc has been debited:",amount,"\nremaining balance:",starting_balance,"\n",date_time)
+    print("-----------------------------------------") 
+    ragul.commit()
+update_table(id,balance,acc_num,starting_balance,amount)
+
+
+
