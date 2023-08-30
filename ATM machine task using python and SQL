@@ -1,4 +1,4 @@
-atm=ragul.cursor()
+atm=ragul.cursor()      # Am connecting with my local host (postgresql)
 #atm.execute("""create table atm_machine(acc_num int primary key,id int,pin_num int,name varchar(25),balance int,ph_num int,branch varchar(25),location varchar(25))""")        #creating table one about customer details
 #atm.execute("""insert into atm_machine values(124356,1,2711,'ragul',50000,9474743,'musiri','trichy'),
 #(123562,2,2655,'bala',530000,9774743,'klt','trichy'),
